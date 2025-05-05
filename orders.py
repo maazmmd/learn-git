@@ -4,7 +4,6 @@ app = Flask(__name__)
 orders = {}
 order_id_counter = 1
 
-# CREATE
 @app.route('/orders', methods=['POST'])
 def create_order():
     global order_id_counter
@@ -20,12 +19,10 @@ def create_order():
     order_id_counter += 1
     return jsonify(orders[order_id]), 201
 
-# READ (all)
 @app.route('/orders', methods=['GET'])
 def get_orders():
     return jsonify(list(orders.values()))
 
-# READ (one)
 @app.route('/orders/<order_id>', methods=['GET'])
 def get_order(order_id):
     order = orders.get(order_id)
@@ -33,7 +30,6 @@ def get_order(order_id):
         return jsonify(order)
     return jsonify({'error': 'Order not found'}), 404
 
-# UPDATE
 @app.route('/orders/<order_id>', methods=['PUT'])
 def update_order(order_id):
     if order_id not in orders:
@@ -47,7 +43,6 @@ def update_order(order_id):
     })
     return jsonify(orders[order_id])
 
-# DELETE
 @app.route('/orders/<order_id>', methods=['DELETE'])
 def delete_order(order_id):
     if order_id in orders:
