@@ -4,7 +4,6 @@ app = Flask(__name__)
 payments = {}  # In-memory "database"
 payment_id_counter = 1
 
-# CREATE
 @app.route('/payments', methods=['POST'])
 def create_payment():
     global payment_id_counter
@@ -19,12 +18,10 @@ def create_payment():
     payment_id_counter += 1
     return jsonify(payments[payment_id]), 201
 
-# READ (all)
 @app.route('/payments', methods=['GET'])
 def get_payments():
     return jsonify(list(payments.values()))
 
-# READ (one)
 @app.route('/payments/<payment_id>', methods=['GET'])
 def get_payment(payment_id):
     payment = payments.get(payment_id)
@@ -32,7 +29,6 @@ def get_payment(payment_id):
         return jsonify(payment)
     return jsonify({'error': 'Payment not found'}), 404
 
-# UPDATE
 @app.route('/payments/<payment_id>', methods=['PUT'])
 def update_payment(payment_id):
     if payment_id not in payments:
@@ -45,7 +41,6 @@ def update_payment(payment_id):
     })
     return jsonify(payments[payment_id])
 
-# DELETE
 @app.route('/payments/<payment_id>', methods=['DELETE'])
 def delete_payment(payment_id):
     if payment_id in payments:
